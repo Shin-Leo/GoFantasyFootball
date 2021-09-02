@@ -9,6 +9,7 @@ import (
 )
 
 import imports "github.com/rocketlaunchr/dataframe-go/imports"
+import dataframe "github.com/rocketlaunchr/dataframe-go"
 
 func readCSVFromUrl(url string) ([][]string, error) {
 	resp, err := http.Get(url)
@@ -42,5 +43,9 @@ func main() {
 		i += 1
 	}
 	df, err := imports.LoadFromCSV(ctx, strings.NewReader(csvString))
-	fmt.Println(df)
+	sks := []dataframe.SortKey{
+		{Key: "FantasyPoints", Desc: true},
+	}
+	df.Sort(ctx, sks)
+	fmt.Println(df.Table())
 }
